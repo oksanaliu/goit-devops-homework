@@ -8,5 +8,11 @@ service:
   port: 80
 
 config:
-  ALLOWED_HOSTS: "*"
-  DEBUG: "True"
+  ALLOWED_HOSTS: '*'
+  DEBUG: 'True'
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70

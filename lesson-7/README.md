@@ -46,6 +46,13 @@ helm install my-site ./charts/django-chart
 kubectl get service my-site-django
 ```
 
+### Очищення
+
+```bash
+helm uninstall my-site
+terraform destroy -auto-approve
+```
+
 ## Результати роботи (Screenshots)
 
 ![Deployment Success](./screenshots/screenshot.png)
