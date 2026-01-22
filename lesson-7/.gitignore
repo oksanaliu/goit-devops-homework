@@ -1,0 +1,16 @@
+cat <<EOF > .gitignore
+.DS_Store
+__pycache__/
+*.pyc
+venv/
+.env
+db.sqlite3
+*.log
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform/
+.terraform.lock.hcl
+.idea/
+.vscode/
+EOF
