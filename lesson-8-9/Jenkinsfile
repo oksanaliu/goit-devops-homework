@@ -1,0 +1,75 @@
+pipeline {
+    agent {
+        kubernetes {
+            yaml '''
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    command:
+    - cat
+    tty: true
+  - name: git-tools
+    image: bitnami/git:latest
+    command:
+    - cat
+    tty: true
+'''
+        }
+    }
+    
+    environment {
+        ECR_REGISTRY = '842303507369.dkr.ecr.eu-west-1.amazonaws.com/lesson-8-9-django-repo' 
+        GITHUB_REPO  = 'github.com/oksanaliu/goit-devops-homework.git'
+        
+        IMAGE_NAME   = 'django-app'
+        TAG          = "${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: "https://${GITHUB_REPO}"
+            }
+        }
+
+        stage('Build & Push to ECR') {
+            steps {
+                container('kaniko') {
+                    withCredentials([usernamePassword(credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh '''
+                        /kaniko/executor --context `pwd` --dockerfile Dockerfile \
+                        --destination $ECR_REGISTRY:$TAG \
+                        --force
+                        '''
+                    }
+                }
+            }
+        }
+
+        stage('Update Helm Chart') {
+            steps {
+                container('git-tools') {
+                    withCredentials([usernamePassword(credentialsId: 'git-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                        sh '''
+                        # Налаштовуємо Git
+                        git config --global user.email "jenkins@example.com"
+                        git config --global user.name "Jenkins Bot"
+                        
+                        # Оновлюємо тег у values.yaml
+                        sed -i "s/tag: .*/tag: \"$TAG\"/" charts/django-app/values.yaml
+                        
+                        # Комітимо зміни
+                        git remote set-url origin https://$GIT_USER:$GIT_TOKEN@$GITHUB_REPO
+                        git add charts/django-app/values.yaml
+                        git commit -m "Update image tag to $TAG [skip ci]"
+                        git push origin main
+                        '''
+                    }
+                }
+            }
+        }
+    }
+}
