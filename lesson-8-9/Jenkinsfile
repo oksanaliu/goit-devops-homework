@@ -34,8 +34,12 @@ spec:
                 container('kaniko') {
                     withCredentials([usernamePassword(credentialsId: 'aws-creds', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
                         sh '''
-                        /kaniko/executor --context ${WORKSPACE}/lesson-8-9 \
-                        --dockerfile ${WORKSPACE}/lesson-8-9/Dockerfile \
+                        # Шукаємо, де саме лежить Dockerfile, щоб не вгадувати
+                        DOCKERFILE_PATH=$(find . -name Dockerfile | head -n 1)
+                        CONTEXT_DIR=$(dirname $DOCKERFILE_PATH)
+                        
+                        /kaniko/executor --context $CONTEXT_DIR \
+                        --dockerfile $DOCKERFILE_PATH \
                         --destination $ECR_REGISTRY:$TAG \
                         --force
                         '''
