@@ -19,7 +19,7 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-provider "kubernetes" {
+ provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   exec {
@@ -57,9 +57,9 @@ module "eks" {
   public_subnets  = module.vpc.public_subnets
 }
 
-module "s3_backend" {
-  source = "./modules/s3-backend"
-}
+# module "s3_backend" {
+#   source = "./modules/s3-backend"
+# }
 
 module "jenkins" {
   source     = "./modules/jenkins"

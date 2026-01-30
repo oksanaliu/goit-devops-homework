@@ -16,6 +16,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: python
+    image: python:3.9-slim
+    command:
+    - cat
+    tty: true
 '''
         }
     }
@@ -28,6 +33,27 @@ spec:
     }
 
     stages {
+        stage('CI: Test, Lint & Security') {
+            steps {
+                container('python') {
+                    sh '''
+                    echo "--- Installing Test Dependencies ---"
+                    pip install --quiet --upgrade pip
+                    pip install --quiet pytest pylint bandit
+
+                    echo "--- Running Pylint (Linting) ---"
+                    find . -name "*.py" | xargs pylint --fail-under=5 || true
+
+                    echo "--- Running Bandit (Security Scan) ---"
+                    bandit -r . || true
+
+                    echo "--- Running Pytest (Unit Tests) ---"
+                    pytest || true
+                    '''
+                }
+            }
+        }
+
         stage('Build & Push to ECR') {
             steps {
                 container('kaniko') {
@@ -49,19 +75,16 @@ spec:
         stage('Update Helm Chart') {
             steps {
                 container('git-tools') {
-                    withCredentials([usernamePassword(credentialsId: 'git-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                    withCredentials([usernamePassword(credentialsId: 'github-creds', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                         sh '''
                         git config --global --add safe.directory ${WORKSPACE}
                         git config --global user.email "jenkins@example.com"
                         git config --global user.name "Jenkins Bot"
 
-                        # Оновлюємо тег у файлі
                         sed -i "s/tag: .*/tag: \\"$TAG\\"/" lesson-8-9/charts/django-app/values.yaml
 
-                        # Формуємо URL з токеном для пушу
                         git remote set-url origin https://${GIT_USER}:${GIT_TOKEN}@${GITHUB_REPO}
                         
-                        # Перевіряємо чи є зміни, щоб не робити пустий коміт
                         if git status --porcelain | grep -q "lesson-8-9/charts/django-app/values.yaml"; then
                             git add lesson-8-9/charts/django-app/values.yaml
                             git commit -m "Update image tag to $TAG [skip ci]"
@@ -76,3 +99,5 @@ spec:
         }
     }
 }
+
+
