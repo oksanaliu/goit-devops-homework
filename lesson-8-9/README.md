@@ -53,7 +53,7 @@ terraform destroy -auto-approve
 
 ### Argo CD: Застосунок має статус Healthy, що підтверджує успішне розгортання в Kubernetes.
 
-![Deployment Success](./screenshot3.png)
+![Deployment Success](./screenshot2.png)
 
 ## Cхема CI/CD
 
