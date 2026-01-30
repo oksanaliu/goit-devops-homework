@@ -45,15 +45,15 @@ terraform destroy -auto-approve
 
 ### Jenkins: Всі етапи Pipeline (Build, Push, Update Git) проходять успішно (Build #7).
 
-![Deployment Success](./screenshots/screenshot1.png)
+![Deployment Success](./screenshot1.png)
 
 ### ECR: Образи зберігаються з унікальними тегами, що відповідають номеру збірки в Jenkins.
 
-![Deployment Success](./screenshots/screenshot22.png)
+![Deployment Success](./screenshot22.png)
 
 ### Argo CD: Застосунок має статус Healthy, що підтверджує успішне розгортання в Kubernetes.
 
-![Deployment Success](./screenshots/screenshot3.png)
+![Deployment Success](./screenshot3.png)
 
 ## Cхема CI/CD
 
