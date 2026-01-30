@@ -57,9 +57,9 @@ module "eks" {
   public_subnets  = module.vpc.public_subnets
 }
 
-# module "s3_backend" {
-#   source = "./modules/s3-backend"
-# }
+module "s3_backend" {
+  source = "./modules/s3-backend"
+}
 
 module "jenkins" {
   source     = "./modules/jenkins"

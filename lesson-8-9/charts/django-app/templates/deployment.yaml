@@ -20,7 +20,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
-          
           env:
             - name: DEBUG
               value: "False"
@@ -31,7 +30,25 @@ spec:
                 secretKeyRef:
                   name: {{ .Release.Name }}-secret
                   key: DJANGO_SECRET_KEY           
-          
+            - name: POSTGRES_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: POSTGRES_NAME
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-secret
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_HOST
+              value: "postgres"
+            - name: POSTGRES_PORT
+              value: "5432"
           resources:
             requests:
               memory: "128Mi"
