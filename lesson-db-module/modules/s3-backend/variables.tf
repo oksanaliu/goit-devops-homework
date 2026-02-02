@@ -1,6 +1,8 @@
 variable "bucket_name" {
-  default = "hw-lesson7-state-2026"
+  default = "hw-lesson-db-state-2026"
 }
+
 variable "dynamodb_table_name" {
-  default = "terraform-locks-lesson7"
+  description = "Name of the DynamoDB table for state locking"
+  default     = "terraform-locks-lesson-db"
 }

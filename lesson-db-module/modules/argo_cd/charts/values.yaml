@@ -4,8 +4,8 @@ applications:
     project: default
     source:
       repoURL: https://github.com/oksanaliu/goit-devops-homework.git
-      path: lesson-8-9/charts/django-app
-      targetRevision: main
+      path: charts/django-app
+      targetRevision: lesson-db-module
     destination:
       server: https://kubernetes.default.svc
       namespace: default

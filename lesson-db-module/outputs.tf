@@ -29,3 +29,7 @@ output "argocd_server" {
 
 }
 
+output "rds_endpoint" {
+  description = "RDS Endpoint"
+  value       = module.rds.db_endpoint
+}

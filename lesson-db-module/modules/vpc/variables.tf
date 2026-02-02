@@ -1,7 +1,7 @@
 variable "vpc_name" {
   description = "Назва VPC"
   type        = string
-  default     = "lesson-8-9-vpc"
+  default     = "lesson-db-vpc"
 }
 
 variable "cidr_block" {

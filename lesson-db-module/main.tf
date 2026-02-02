@@ -41,7 +41,6 @@ provider "helm" {
   }
 }
 
-
 module "vpc" {
   source = "./modules/vpc"
 }
@@ -70,4 +69,25 @@ module "argo_cd" {
   source     = "./modules/argo_cd"
   namespace  = "argocd"
   depends_on = [module.eks]
+}
+
+module "rds" {
+  source = "./modules/rds"
+
+  env            = "dev"
+  identifier     = "lesson-db"
+  
+  use_aurora     = false 
+  
+  vpc_id         = module.vpc.vpc_id
+  subnet_ids     = module.vpc.private_subnets
+  
+  security_group_ids = [module.eks.node_security_group_id]
+
+  db_name        = "app_db"
+  username       = "adminuser"
+  
+  password       = var.db_password 
+  
+  family         = "postgres14"
 }
