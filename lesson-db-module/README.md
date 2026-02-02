@@ -133,16 +133,16 @@ terraform destroy -auto-approve
 
 ### Успішне виконання Terraform Apply (Інфраструктура розгорнута, отримані ендпоінти для RDS, Jenkins та ArgoCD).
 
-![Deployment Success](.screenshots/hw1.png)
+![Deployment Success](./screenshots/hw1.png)
 
 ### AWS Console: RDS (PostgreSQL)
 
-![Deployment Success](.screenshots/hw2.png)
+![Deployment Success](./screenshots/hw2.png)
 
 ### Jenkins & ArgoCD (CI/CD інструменти успішно запущені в кластері).
 
-![Deployment Success](.screenshots/hw4.png)
-![Deployment Success](.screenshots/hw3.png)
+![Deployment Success](./screenshots/hw4.png)
+![Deployment Success](./screenshots/hw3.png)
 
 ## Cхема CI/CD
 
