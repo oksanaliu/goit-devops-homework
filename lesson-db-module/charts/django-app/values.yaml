@@ -1,0 +1,21 @@
+replicaCount: 1
+
+image:
+  repository: 842303507369.dkr.ecr.eu-west-1.amazonaws.com/lesson-db-module-repo
+  pullPolicy: IfNotPresent
+  tag: '15'
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: false
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

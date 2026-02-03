@@ -1,0 +1,15 @@
+applications:
+  - name: django-app
+    namespace: default
+    project: default
+    source:
+      repoURL: https://github.com/oksanaliu/goit-devops-homework.git
+      path: charts/django-app
+      targetRevision: lesson-db-module
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: default
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
