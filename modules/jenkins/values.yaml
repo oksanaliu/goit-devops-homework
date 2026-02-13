@@ -1,14 +1,18 @@
 controller:
   serviceType: LoadBalancer
 
+  runAsUser: 1000
+  fsGroup: 1000
+
   installPlugins:
-    - kubernetes
-    - workflow-aggregator
-    - git
-    - configuration-as-code
-    - pipeline-stage-view
-    - blueocean
-    - docker-workflow
+    []
+    # - kubernetes
+    # - workflow-aggregator
+    # - git
+    # - configuration-as-code
+    # - pipeline-stage-view
+    # - blueocean
+    # - docker-workflow
 
   resources:
     requests:
@@ -17,6 +21,10 @@ controller:
     limits:
       cpu: '500m'
       memory: '512Mi'
+
+  containerSecurityContext:
+    runAsUser: 1000
+    privileged: false
 
 persistence:
   enabled: true
