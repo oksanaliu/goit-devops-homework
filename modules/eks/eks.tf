@@ -11,12 +11,12 @@ module "eks" {
 
   eks_managed_node_groups = {
     main = {
-      instance_types = ["t3.medium"] 
-      capacity_type  = "SPOT" 
+      instance_types = ["t3.micro"] 
+      capacity_type  = "ON_DEMAND" 
 
-      min_size     = 2
-      max_size     = 3
-      desired_size = 2
+      min_size     = 4
+      max_size     = 5
+      desired_size = 4
       
       iam_role_additional_policies = {
         AmazonEC2ContainerRegistryFullAccess = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
