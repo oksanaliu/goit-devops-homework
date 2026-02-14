@@ -89,3 +89,8 @@ module "rds" {
   
   family         = "postgres14"
 }
+
+module "monitoring" {
+  source     = "./modules/monitoring"
+  depends_on = [module.eks] 
+}
