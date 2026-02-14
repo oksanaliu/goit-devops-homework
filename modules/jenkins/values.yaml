@@ -1,0 +1,36 @@
+controller:
+  serviceType: LoadBalancer
+
+  runAsUser: 1000
+  fsGroup: 1000
+
+  installPlugins:
+    []
+    # - kubernetes
+    # - workflow-aggregator
+    # - git
+    # - configuration-as-code
+    # - pipeline-stage-view
+    # - blueocean
+    # - docker-workflow
+
+  resources:
+    requests:
+      cpu: '100m'
+      memory: '384Mi'
+    limits:
+      cpu: '500m'
+      memory: '512Mi'
+
+  containerSecurityContext:
+    runAsUser: 1000
+    privileged: false
+
+persistence:
+  enabled: true
+  storageClass: 'gp2'
+  size: '8Gi'
+
+serviceAccount:
+  create: true
+  name: jenkins
